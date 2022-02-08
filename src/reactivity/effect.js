@@ -1,3 +1,4 @@
+const effectStack = [];
 let activeEffect;
 const targetMap = new WeakMap();
 
@@ -5,9 +6,11 @@ export function effect(fn) {
   const effectFn = () => {
     try {
       activeEffect = effectFn;
+      effectStack.push(activeEffect);
       return fn();
     } finally {
-      //TODO
+      effectStack.pop();
+      activeEffect = effectStack[effectStack.length - 1];
     }
   };
   effectFn();
