@@ -2,7 +2,7 @@ const effectStack = [];
 let activeEffect;
 const targetMap = new WeakMap();
 
-export function effect(fn) {
+export function effect(fn, options = {}) {
   const effectFn = () => {
     try {
       activeEffect = effectFn;
@@ -13,7 +13,10 @@ export function effect(fn) {
       activeEffect = effectStack[effectStack.length - 1];
     }
   };
-  effectFn();
+  if (!options.lazy) {
+    effectFn();
+  }
+  effectFn.scheduler = options.scheduler;
   return effectFn;
 }
 
@@ -42,6 +45,10 @@ export function trigger(target, key) {
     return;
   }
   deps.forEach(effectFn => {
-    effectFn();
+    if (effectFn.scheduler) {
+      effectFn.scheduler(effectFn);
+    } else {
+      effectFn();
+    }
   })
 }

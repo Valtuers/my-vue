@@ -1,14 +1,18 @@
-import { effect } from "./reactivity/effect";
-import { reactive } from "./reactivity/reactive";
+import { computed } from "./reactivity/computed";
+import { ref } from "./reactivity/ref";
 
-const obj = (window.obj = reactive({
-  count1: 0,
-  count2: 2
-}));
 
-effect(() => {
-  effect(() => {
-    console.log("obj.count2:" + obj.count2);
-  })
-  console.log("obj.count1:" + obj.count1);
-})
+let a = (window.a = ref(1));
+const b = (window.b = computed({
+  get() {
+    console.log('bbbbbbbbbbb');
+    return a.value * 2;
+  },
+  set(newVal) {
+    a.value = newVal;
+  }
+}))
+const c = (window.c = computed(() => {
+  console.log("cccccccccc");
+  return a.value * 2;
+}))
