@@ -1,18 +1,29 @@
-import { computed } from "./reactivity/computed";
-import { ref } from "./reactivity/ref";
+import { render } from "./runtime-core/render"
+import { h } from "./runtime-core/vnode"
 
-
-let a = (window.a = ref(1));
-const b = (window.b = computed({
-  get() {
-    console.log('bbbbbbbbbbb');
-    return a.value * 2;
+const vnode = h(
+  'div',
+  {
+    class: 'a',
+    style: {
+      border: '1px solid red'
+    },
+    onClick: () => console.log('click'),
+    id: 'foo',
+    custom: false,
+    checked: ''
   },
-  set(newVal) {
-    a.value = newVal;
-  }
-}))
-const c = (window.c = computed(() => {
-  console.log("cccccccccc");
-  return a.value * 2;
-}))
+  [
+    h(
+      'ul',
+      null,
+      [
+        h('li',null,1),
+        h('li',null,2),
+        h('li',null,3),
+      ]
+    )
+  ]
+)
+
+render(vnode, document.body)

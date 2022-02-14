@@ -1,4 +1,28 @@
 /**
+ * 判断参数是否为字符串
+ * @param {*} target 
+ * @returns 
+ */
+ export function isString(target) {
+  return typeof target === 'string';
+}
+/**
+ * 判断参数是否为数字
+ * @param {*} target 
+ * @returns 
+ */
+ export function isNumber(target) {
+  return typeof target === 'number';
+}
+/**
+ * 判断参数是否为布尔类型
+ * @param {*} target 
+ * @returns 
+ */
+ export function isBoolean(target) {
+  return typeof target === 'boolean';
+}
+/**
  * 判断参数是否为对象
  * @param {*} target 
  * @returns 
